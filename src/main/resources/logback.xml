@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<contextName>sapp</contextName>
+
+	<appender
+		name="logfile_fatal"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>FATAL</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<Prudent>true</Prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				logs/sapp/fatal/${HOSTNAME}.${CONTEXT_NAME}.%d{yyyy-MM-dd-HH}.fatal.log
+			</FileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>
+                <![CDATA[
+                %d{HH:mm:ss.SSS} [%replace(%thread){" for queue: 'weblogic.kernel.Default \(self-tuning\)'",''}] %.-1level %logger{32} - %msg %n
+                ]]>
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender
+		name="logfile_error"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<Prudent>true</Prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				logs/sapp/error/${HOSTNAME}.${CONTEXT_NAME}.%d{yyyy-MM-dd-HH}.error.log
+			</FileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>
+                <![CDATA[
+				%d{HH:mm:ss.SSS} [%replace(%thread){" for queue: 'weblogic.kernel.Default \(self-tuning\)'",''}] %.-1level %logger{32} - %msg %n
+				]]>
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender
+		name="logfile_warn"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<Prudent>true</Prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				logs/sapp/warn/${HOSTNAME}.${CONTEXT_NAME}.%d{yyyy-MM-dd-HH}.warn.log
+			</FileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>
+                <![CDATA[
+                %d{HH:mm:ss.SSS} [%replace(%thread){" for queue: 'weblogic.kernel.Default \(self-tuning\)'",''}] %.-1level %logger{32} - %msg %n
+                ]]>
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender
+		name="logfile_info"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<Prudent>true</Prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				logs/sapp/info/${HOSTNAME}.${CONTEXT_NAME}.%d{yyyy-MM-dd-HH}.info.log
+			</FileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>
+                <![CDATA[
+				%d{HH:mm:ss.SSS} [%replace(%thread){" for queue: 'weblogic.kernel.Default \(self-tuning\)'",''}] %.-1level %logger{32} - %msg %n
+				]]>
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender
+		name="logfile_debug"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<Prudent>true</Prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				logs/sapp/debug/${HOSTNAME}.${CONTEXT_NAME}.%d{yyyy-MM-dd-HH}.debug.log
+			</FileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>
+                <![CDATA[
+				%d{HH:mm:ss.SSS} [%replace(%thread){" for queue: 'weblogic.kernel.Default \(self-tuning\)'",''}] %.-1level %logger{32} - %msg %n
+				]]>
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender
+		name="log_console"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{36} - %msg %n </pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<logger
+		name="root"
+		level="debug">
+		<appender-ref ref="logfile_debug" />
+	</logger>
+	<logger
+		name="org.springframework.integration.endpoint.PollingConsumer"
+		level="ERROR" />
+
+	<logger
+		name="org.springframework"
+		level="debug">
+		<appender-ref ref="log_console" />
+		<appender-ref ref="logfile_debug" />
+	</logger>
+	<logger
+		name="main.java"
+		level="debug">
+		<appender-ref ref="log_console" />
+		<appender-ref ref="logfile_debug" />
+		<appender-ref ref="logfile_info" />
+		<appender-ref ref="logfile_warn" />
+		<appender-ref ref="logfile_error" />
+		<appender-ref ref="logfile_fatal" />
+	</logger>
+	<logger
+		name="org.apache.ibatis"
+		level="debug">
+		<appender-ref ref="log_console" />
+		<appender-ref ref="logfile_debug" />
+		<appender-ref ref="logfile_info" />
+		<appender-ref ref="logfile_warn" />
+		<appender-ref ref="logfile_error" />
+		<appender-ref ref="logfile_fatal" />
+	</logger>
+	<logger
+		name="org.apache.camel"
+		level="debug">
+		<appender-ref ref="log_console" />
+		<appender-ref ref="logfile_debug" />
+	</logger>
+	<logger
+		name="java.sql"
+		level="debug">
+		<appender-ref ref="log_console" />
+		<appender-ref ref="logfile_debug" />
+		<appender-ref ref="logfile_info" />
+		<appender-ref ref="logfile_warn" />
+		<appender-ref ref="logfile_error" />
+		<appender-ref ref="logfile_fatal" />
+	</logger>
+</configuration>

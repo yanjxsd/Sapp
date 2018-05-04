@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<import resource="mtrading-ds.xml"/>
+	
+	<!-- mts -->
+	<bean id="mtsSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ac_ds"/>
+	</bean>
+	<bean id="mtsMapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.sapp.dao"/>
+		<property name="beanName" value="*Dao"/>
+		<property name="sqlSessionFactoryBeanName" value="mtsSessionFactory"/>
+	</bean>
+	
+	
+	<!-- ots <bean class="org.springframework.orm.ibatis3.SqlSessionTemplate"> <property
+		name="sqlSessionFactory" ref="otsSessionFactory"/> </bean> <bean id="otsSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean"> <property name="dataSource" ref="ots_ds"/>
+		</bean> <bean id="otsMapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="ds.mtrading.dao.ots,ds.mtrading.ots.dao"/> <property
+		name="beanName" value="*Dao"/> <property name="sqlSessionFactoryBeanName" value="otsSessionFactory"/>
+		</bean> -->
+</beans>

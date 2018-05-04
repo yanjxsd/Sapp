@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<context:property-placeholder location="classpath*:jdbc.properties" ignore-unresolvable="true"/>
+	<mvc:resources mapping="/static/**" location="/static/"/>
+	<mvc:resources mapping="/apiview/**" location="/apiview/"/>
+	<import resource="mtrading-dao.xml"/>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<context:component-scan base-package="com.sapp.*">
+	</context:component-scan>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property
+			name="supportedMediaTypes"
+			value="application/json" />
+	</bean>
+	<bean
+		id="myStringHttpConv"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property
+			name="writeAcceptCharset"
+			value="false" />
+	</bean>
+	<mvc:annotation-driven/>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+	
+</beans>
